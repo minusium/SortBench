@@ -22,13 +22,19 @@ jobs:
       run: dotnet restore
       
     - name: Build
-      run: dotnet build -a x64 -c Release --no-restore
+      run: dotnet build -c Release --no-restore
       
     - name: Run
-      run: dotnet run -a x64 -c Release --project SortBench
+      run: dotnet run -c Release --project SortBench
       
-    - name: Upload a Build Artifact
+    - name: Upload result.csv
       uses: actions/upload-artifact@v2.3.1
       with:
-        name: result.csv
+        name: result.zip
         path: result.csv
+
+    - name: Upload plot.svg
+      uses: actions/upload-artifact@v2.3.1
+      with:
+        name: result.zip
+        path: plot.svg

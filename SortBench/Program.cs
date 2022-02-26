@@ -43,18 +43,16 @@ namespace SortBench
 
             var random = new Random();
 
-            for (int size = 1000; size <= 50000; size += 500)
+            for (int size = 1000; size <= 50_000; size += 500)
             {
                 Console.WriteLine($"* Running with size {size}");
 
+                // with 128,000,000 as maximum number count sort will require 488MB memory so my system won't crash
+                // without limit, maximum number is 2,147,483,647 so count sort will need 8GB of memory.
                 Console.WriteLine("> Generating array...");
-                var target = new int[size];
-                for (int i = 0; i < size; i++)
-                {
-                    // with 128,000,000 as maximum number count sort will require 488MB memory so my system won't crash
-                    // without limit, maximum number is 2,147,483,647 so count sort will need 8GB of memory.
-                    target[i] = random.Next(0, 128_000_000);
-                }
+                var target = Enumerable.Range(0, size)
+                    .Select(i => random.Next(0, 128_000_000))
+                    .ToArray();
 
                 var answer = target.OrderBy(i => i).ToArray();
 
@@ -68,8 +66,12 @@ namespace SortBench
 
                 Console.WriteLine();
             }
+
             Console.WriteLine("* Saving result to result.csv...");
             _results.SaveAsCsv("result.csv");
+
+            Console.WriteLine("* Saving plot to plot.svg...");
+            _results.SavePlot("plot.svg");
         }
     }
 }

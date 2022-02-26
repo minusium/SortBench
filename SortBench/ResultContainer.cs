@@ -1,4 +1,9 @@
-﻿namespace SortBench
+﻿using OxyPlot;
+using OxyPlot.Axes;
+using OxyPlot.Series;
+using OxyPlot.Legends;
+
+namespace SortBench
 {
     public class ResultContainer
     {
@@ -35,6 +40,49 @@
                 columns += string.Join(';', row.Value);
                 writer.WriteLine(columns);
             }
+        }
+
+        public void SavePlot(string fileName)
+        {
+            var plotModel = new PlotModel();
+            plotModel.Axes.Add(new LinearAxis
+            {
+                Position = AxisPosition.Bottom,
+                Title = "Size",
+                MajorGridlineStyle = LineStyle.Dash,
+                AxisTitleDistance = 25,
+            });
+            plotModel.Axes.Add(new LinearAxis
+            {
+                Position = AxisPosition.Left,
+                Title = "Time",
+                Unit = "Ticks",
+                MajorGridlineStyle = LineStyle.Dash,
+                AxisTitleDistance = 25,
+            });
+
+            plotModel.Legends.Add(new Legend
+            {
+                LegendBorder = OxyColors.Black,
+                LegendPlacement = LegendPlacement.Outside,
+                LegendPosition = LegendPosition.BottomRight,
+                LegendOrientation = LegendOrientation.Horizontal,
+                LegendPadding = 25,
+            });
+
+            for (int i = 0; i < _columns.Count; i++)
+            {
+                var series = new LineSeries
+                {
+                    Title = _columns[i],
+                    ItemsSource = _data.Select(row => new DataPoint(row.Key, row.Value[i])).ToArray(),
+                };
+                plotModel.Series.Add(series);
+            }
+
+            using var file = File.Open(fileName, FileMode.Create, FileAccess.Write);
+            var exporter = new SvgExporter { Width = 1920, Height = 1080 };
+            exporter.Export(plotModel, file);
         }
     }
 }
