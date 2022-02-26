@@ -13,8 +13,9 @@ namespace SortBench
             new BubbleSort(),
             new QuickSort(),
             new MergeSort(),
-            new HeapSort(),
             new InsertionSort(),
+            new RadixSort(),
+            new HeapSort(),
         };
 
         private static long BenchAlgorithm(this ISortAlgorithm algorithm, int[] target, int[] sorted)
