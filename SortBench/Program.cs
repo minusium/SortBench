@@ -9,11 +9,12 @@ namespace SortBench
 
         private readonly static ISortAlgorithm[] _algorithms = new ISortAlgorithm[]
         {
-            new SelectionSort(),
             new BubbleSort(),
+            new InsertionSort(),
+            new SelectionSort(),
             new QuickSort(),
             new MergeSort(),
-            new InsertionSort(),
+            new CountSort(),
             new RadixSort(),
             new HeapSort(),
         };
@@ -50,7 +51,9 @@ namespace SortBench
                 var target = new int[size];
                 for (int i = 0; i < size; i++)
                 {
-                    target[i] = random.Next();
+                    // with 128,000,000 as maximum number count sort will require 488MB memory so my system won't crash
+                    // without limit, maximum number is 2,147,483,647 so count sort will need 8GB of memory.
+                    target[i] = random.Next(0, 128_000_000);
                 }
 
                 var answer = target.OrderBy(i => i).ToArray();
