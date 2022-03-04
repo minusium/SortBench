@@ -17,6 +17,7 @@ namespace SortBench
             new CountSort(),
             new RadixSort(),
             new HeapSort(),
+            new StoogeSort(),
         };
 
         private static long BenchAlgorithm(this ISortAlgorithm algorithm, int[] target, int[] sorted)
