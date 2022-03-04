@@ -43,15 +43,14 @@ namespace SortBench
 
             var random = new Random();
 
-            for (int size = 1000; size <= 50_000; size += 500)
+            for (int size = 10; size <= 10_000; size += 5)
             {
                 Console.WriteLine($"* Running with size {size}");
 
-                // with 128,000,000 as maximum number count sort will require 488MB memory so my system won't crash
-                // without limit, maximum number is 2,147,483,647 so count sort will need 8GB of memory.
+                // set a limit for maximum number, without it maximum number is 2,147,483,647 so count sort will need 8GB of memory.
                 Console.WriteLine("> Generating array...");
                 var target = Enumerable.Range(0, size)
-                    .Select(i => random.Next(0, 128_000_000))
+                    .Select(i => random.Next(0, 1_000_000))
                     .ToArray();
 
                 var answer = target.OrderBy(i => i).ToArray();
