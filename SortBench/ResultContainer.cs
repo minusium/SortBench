@@ -42,7 +42,7 @@ namespace SortBench
             }
         }
 
-        public void SavePlot(string fileName)
+        public PlotModel GeneratePlotModel()
         {
             var plotModel = new PlotModel();
             plotModel.Axes.Add(new LinearAxis
@@ -80,8 +80,22 @@ namespace SortBench
                 plotModel.Series.Add(series);
             }
 
+            return plotModel;
+        }
+
+        public void SavePlotAsSvg(string fileName)
+        {
+            var plotModel = GeneratePlotModel();
             using var file = File.Open(fileName, FileMode.Create, FileAccess.Write);
             var exporter = new SvgExporter { Width = 1920, Height = 1080 };
+            exporter.Export(plotModel, file);
+        }
+
+        public void SavePlotAsPdf(string fileName)
+        {
+            var plotModel = GeneratePlotModel();
+            using var file = File.Open(fileName, FileMode.Create, FileAccess.Write);
+            var exporter = new OxyPlot.SkiaSharp.PdfExporter { Width = 1920, Height = 1080 };
             exporter.Export(plotModel, file);
         }
     }

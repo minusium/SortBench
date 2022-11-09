@@ -5,10 +5,9 @@ namespace SortBench
 {
     internal static class Program
     {
-        private readonly static ResultContainer _results = new();
+        private static readonly ResultContainer Results = new();
 
-        private readonly static ISortAlgorithm[] _algorithms = new ISortAlgorithm[]
-        {
+        private static readonly ISortAlgorithm[] Algorithms = {
             new BubbleSort(),
             new InsertionSort(),
             new SelectionSort(),
@@ -20,7 +19,11 @@ namespace SortBench
             new StoogeSort(),
         };
 
-        private static long BenchAlgorithm(this ISortAlgorithm algorithm, int[] target, int[] sorted)
+        private static long BenchAlgorithm(this ISortAlgorithm algorithm, int[] target
+#if DEBUG
+            , IReadOnlyList<int> sorted
+#endif
+            )
         {
             var stopwatch = new Stopwatch();
             var clonedTarget = new int[target.Length];
@@ -28,18 +31,20 @@ namespace SortBench
             stopwatch.Start();
             algorithm.Run(clonedTarget);
             stopwatch.Stop();
-            for (int i = 0; i < target.Length; i++)
+#if DEBUG
+            for (var i = 0; i < target.Length; i++)
             {
                 Debug.Assert(clonedTarget[i] == sorted[i]);
             }
+#endif
             return stopwatch.ElapsedTicks;
         }
 
         public static void Main()
         {
-            foreach (var algorithm in _algorithms)
+            foreach (var algorithm in Algorithms)
             {
-                _results.AddColumn(algorithm.Name);
+                Results.AddColumn(algorithm.Name);
             }
 
             var random = new Random();
@@ -51,27 +56,36 @@ namespace SortBench
                 // set a limit for maximum number, without it maximum number is 2,147,483,647 so count sort will need 8GB of memory.
                 Console.WriteLine("> Generating array...");
                 var target = Enumerable.Range(0, size)
-                    .Select(i => random.Next(0, 1_000_000))
+                    .Select(_ => random.Next(0, 1_000_000))
                     .ToArray();
 
+#if DEBUG
                 var answer = target.OrderBy(i => i).ToArray();
+#endif
 
-                foreach (var algorithm in _algorithms)
+                foreach (var algorithm in Algorithms)
                 {
                     Console.WriteLine($"> Running {algorithm.Name}...");
-                    var elapsed = algorithm.BenchAlgorithm(target, answer);
+                    var elapsed = algorithm.BenchAlgorithm(target
+#if DEBUG
+                        , answer
+#endif
+                        );
                     Console.WriteLine($"took {elapsed} ticks.");
-                    _results.AddResult(size, algorithm.Name, elapsed);
+                    Results.AddResult(size, algorithm.Name, elapsed);
                 }
 
                 Console.WriteLine();
             }
 
             Console.WriteLine("* Saving result to result.csv...");
-            _results.SaveAsCsv("result.csv");
+            Results.SaveAsCsv("result.csv");
 
             Console.WriteLine("* Saving plot to plot.svg...");
-            _results.SavePlot("plot.svg");
+            Results.SavePlotAsSvg("plot.svg");
+
+            Console.WriteLine("* Saving plot to plot.pdf...");
+            Results.SavePlotAsSvg("plot.pdf");
         }
     }
 }
