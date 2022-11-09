@@ -7,8 +7,8 @@ namespace SortBench
 {
     public class ResultContainer
     {
-        private Dictionary<int, long[]> _data = new();
-        private List<string> _columns = new();
+        private readonly Dictionary<int, long[]> _data = new();
+        private readonly List<string> _columns = new();
 
         public void AddColumn(string name)
         {
@@ -26,14 +26,21 @@ namespace SortBench
 
         public void SaveAsCsv(string fileName)
         {
+            // CSV Format:
+            // Set separator: sep=;
+            // Header: Column1;Column2;Column3;...
+            // Rows: 12;10;16;...
+
             using var writer = new StreamWriter(fileName);
 
             writer.WriteLine("sep=;");
 
+            // write header
             var columnNames = "Size;";
             columnNames += string.Join(';', _columns);
             writer.WriteLine(columnNames);
 
+            // write each row
             foreach (var row in _data)
             {
                 var columns = $"{row.Key};";
@@ -44,7 +51,9 @@ namespace SortBench
 
         public PlotModel GeneratePlotModel()
         {
+            // create the plot model
             var plotModel = new PlotModel();
+            // Size Axis
             plotModel.Axes.Add(new LinearAxis
             {
                 Position = AxisPosition.Bottom,
@@ -52,6 +61,7 @@ namespace SortBench
                 MajorGridlineStyle = LineStyle.Dash,
                 AxisTitleDistance = 25,
             });
+            // Time Axis
             plotModel.Axes.Add(new LinearAxis
             {
                 Position = AxisPosition.Left,
@@ -61,6 +71,7 @@ namespace SortBench
                 AxisTitleDistance = 25,
             });
 
+            // Define Legends
             plotModel.Legends.Add(new Legend
             {
                 LegendBorder = OxyColors.Black,
@@ -70,6 +81,7 @@ namespace SortBench
                 LegendPadding = 25,
             });
 
+            // add a line series for each algorithm
             for (int i = 0; i < _columns.Count; i++)
             {
                 var series = new LineSeries
