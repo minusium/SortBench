@@ -1,4 +1,4 @@
-﻿namespace SortBench.Algorithms
+﻿namespace SortBench.Core.Algorithms
 {
     public class MergeSort : ISortAlgorithm
     {
@@ -7,23 +7,23 @@
         // Merges two subarrays of []arr.
         // First subarray is arr[l..m]
         // Second subarray is arr[m+1..r]
-        private static void merge(int[] arr, int l, int m, int r)
+        private static void Merge(int[] arr, int l, int m, int r)
         {
             // Find sizes of two
             // subarrays to be merged
-            int n1 = m - l + 1;
-            int n2 = r - m;
+            var n1 = m - l + 1;
+            var n2 = r - m;
 
             // Create temp arrays
-            int[] L = new int[n1];
-            int[] R = new int[n2];
+            var left = new int[n1];
+            var right = new int[n2];
             int i, j;
 
             // Copy data to temp arrays
             for (i = 0; i < n1; ++i)
-                L[i] = arr[l + i];
+                left[i] = arr[l + i];
             for (j = 0; j < n2; ++j)
-                R[j] = arr[m + 1 + j];
+                right[j] = arr[m + 1 + j];
 
             // Merge the temp arrays
 
@@ -34,17 +34,17 @@
 
             // Initial index of merged
             // subarray array
-            int k = l;
+            var k = l;
             while (i < n1 && j < n2)
             {
-                if (L[i] <= R[j])
+                if (left[i] <= right[j])
                 {
-                    arr[k] = L[i];
+                    arr[k] = left[i];
                     i++;
                 }
                 else
                 {
-                    arr[k] = R[j];
+                    arr[k] = right[j];
                     j++;
                 }
                 k++;
@@ -54,7 +54,7 @@
             // of L[] if any
             while (i < n1)
             {
-                arr[k] = L[i];
+                arr[k] = left[i];
                 i++;
                 k++;
             }
@@ -63,7 +63,7 @@
             // of R[] if any
             while (j < n2)
             {
-                arr[k] = R[j];
+                arr[k] = right[j];
                 j++;
                 k++;
             }
@@ -72,27 +72,26 @@
         // Main function that
         // sorts arr[l..r] using
         // merge()
-        private static void sort(int[] arr, int l, int r)
+        private static void DoMergeSort(int[] arr, int l, int r)
         {
-            if (l < r)
-            {
-                // Find the middle
-                // point
-                int m = l + (r - l) / 2;
+            if (l >= r) return;
 
-                // Sort first and
-                // second halves
-                sort(arr, l, m);
-                sort(arr, m + 1, r);
+            // Find the middle
+            // point
+            var m = l + (r - l) / 2;
 
-                // Merge the sorted halves
-                merge(arr, l, m, r);
-            }
+            // Sort first and
+            // second halves
+            DoMergeSort(arr, l, m);
+            DoMergeSort(arr, m + 1, r);
+
+            // Merge the sorted halves
+            Merge(arr, l, m, r);
         }
 
         public void Run(int[] target)
         {
-            sort(target, 0, target.Length - 1);
+            DoMergeSort(target, 0, target.Length - 1);
         }
     }
 }

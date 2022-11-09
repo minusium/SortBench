@@ -1,9 +1,12 @@
-﻿using OxyPlot;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using OxyPlot;
 using OxyPlot.Axes;
-using OxyPlot.Series;
 using OxyPlot.Legends;
+using OxyPlot.Series;
 
-namespace SortBench
+namespace SortBench.Core
 {
     public class ResultContainer
     {
@@ -93,22 +96,6 @@ namespace SortBench
             }
 
             return plotModel;
-        }
-
-        public void SavePlotAsSvg(string fileName)
-        {
-            var plotModel = GeneratePlotModel();
-            using var file = File.Open(fileName, FileMode.Create, FileAccess.Write);
-            var exporter = new SvgExporter { Width = 1920, Height = 1080 };
-            exporter.Export(plotModel, file);
-        }
-
-        public void SavePlotAsPdf(string fileName)
-        {
-            var plotModel = GeneratePlotModel();
-            using var file = File.Open(fileName, FileMode.Create, FileAccess.Write);
-            var exporter = new OxyPlot.SkiaSharp.PdfExporter { Width = 1920, Height = 1080 };
-            exporter.Export(plotModel, file);
         }
     }
 }

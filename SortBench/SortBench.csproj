@@ -13,4 +13,8 @@
     <PackageReference Include="OxyPlot.SkiaSharp" Version="2.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SortBench.Core\SortBench.Core.csproj" />
+  </ItemGroup>
+
 </Project>

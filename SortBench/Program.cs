@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics;
-using SortBench.Algorithms;
+using SortBench.Core;
 
 namespace SortBench
 {
@@ -7,47 +7,24 @@ namespace SortBench
     {
         private static readonly ResultContainer Results = new();
 
-        private static readonly ISortAlgorithm[] Algorithms = {
-            new BubbleSort(),
-            new InsertionSort(),
-            new SelectionSort(),
-            new QuickSort(),
-            new MergeSort(),
-            new CountSort(),
-            new RadixSort(),
-            new HeapSort(),
-            new StoogeSort(),
-        };
-
-        private static long BenchAlgorithm(this ISortAlgorithm algorithm, int[] target)
+        private static void SavePlotAsSvg(this OxyPlot.PlotModel plotModel, string fileName)
         {
-            var stopwatch = new Stopwatch();
+            using var file = File.Open(fileName, FileMode.Create, FileAccess.Write);
+            var exporter = new OxyPlot.SvgExporter { Width = 1920, Height = 1080 };
+            exporter.Export(plotModel, file);
+        }
 
-            // clone the array before sorting
-            var clonedTarget = new int[target.Length];
-            Array.Copy(target, clonedTarget, clonedTarget.Length);
-
-            // run the sort algorithm and calculate elapsed time
-            stopwatch.Start();
-            algorithm.Run(clonedTarget);
-            stopwatch.Stop();
-            
-#if DEBUG
-            // verify that the array is sorted correctly
-            var sorted = target.OrderBy(i => i).ToArray();
-            for (var i = 0; i < target.Length; i++)
-            {
-                Debug.Assert(clonedTarget[i] == sorted[i]);
-            }
-#endif
-
-            return stopwatch.ElapsedTicks;
+        private static void SavePlotAsPdf(this OxyPlot.PlotModel plotModel, string fileName)
+        {
+            using var file = File.Open(fileName, FileMode.Create, FileAccess.Write);
+            var exporter = new OxyPlot.SkiaSharp.PdfExporter { Width = 1920, Height = 1080 };
+            exporter.Export(plotModel, file);
         }
 
         public static void Main()
         {
             // add column for each algorithm to the result container
-            foreach (var algorithm in Algorithms)
+            foreach (var algorithm in ISortAlgorithm.Algorithms)
             {
                 Results.AddColumn(algorithm.Name);
             }
@@ -66,10 +43,10 @@ namespace SortBench
                     .ToArray();
 
                 // sort the array with each algorithm and save the result
-                foreach (var algorithm in Algorithms)
+                foreach (var algorithm in ISortAlgorithm.Algorithms)
                 {
                     Console.WriteLine($"> Running {algorithm.Name}...");
-                    var elapsed = algorithm.BenchAlgorithm(target);
+                    var elapsed = algorithm.Benchmark(target);
                     Console.WriteLine($"took {elapsed} ticks.");
                     Results.AddResult(size, algorithm.Name, elapsed);
                 }
@@ -82,11 +59,15 @@ namespace SortBench
             Console.WriteLine("* Saving result to result.csv...");
             Results.SaveAsCsv("result.csv");
 
+            // create plot and save to file
+
+            var plotModel = Results.GeneratePlotModel();
+
             Console.WriteLine("* Saving plot to plot.svg...");
-            Results.SavePlotAsSvg("plot.svg");
+            plotModel.SavePlotAsSvg("plot.svg");
 
             Console.WriteLine("* Saving plot to plot.pdf...");
-            Results.SavePlotAsPdf("plot.pdf");
+            plotModel.SavePlotAsPdf("plot.pdf");
         }
     }
 }
