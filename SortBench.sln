@@ -19,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SortBench.Core", "SortBench.Core\SortBench.Core.csproj", "{7D0129CC-F22F-49D8-A0C5-7E2FD4E598F5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SortBench.Wpf", "SortBench.Wpf\SortBench.Wpf.csproj", "{0E72735B-AB8B-42FE-A5A8-36018FA86F9D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{7D0129CC-F22F-49D8-A0C5-7E2FD4E598F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D0129CC-F22F-49D8-A0C5-7E2FD4E598F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D0129CC-F22F-49D8-A0C5-7E2FD4E598F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E72735B-AB8B-42FE-A5A8-36018FA86F9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E72735B-AB8B-42FE-A5A8-36018FA86F9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E72735B-AB8B-42FE-A5A8-36018FA86F9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E72735B-AB8B-42FE-A5A8-36018FA86F9D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
