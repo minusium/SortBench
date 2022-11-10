@@ -1,6 +1,6 @@
 ﻿namespace SortBench.Core.Algorithms
 {
-    public class CountSort : ISortAlgorithm
+    internal class CountSort : ISortAlgorithm
     {
         private static void DoCountSort(int[] array, int size)
         {
@@ -53,6 +53,11 @@
         public void Run(int[] target)
         {
             DoCountSort(target, target.Length);
+        }
+
+        public ulong CalculateRequiredMemory(uint maxSize, int maxValue)
+        {
+            return maxSize * sizeof(int) + (ulong)maxValue * sizeof(int);
         }
     }
 }

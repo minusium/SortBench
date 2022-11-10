@@ -1,6 +1,6 @@
 ﻿namespace SortBench.Core.Algorithms
 {
-    public class SelectionSort : ISortAlgorithm
+    internal class SelectionSort : ISortAlgorithm
     {
         public string Name => nameof(SelectionSort);
 
@@ -26,6 +26,11 @@
         public void Run(int[] target)
         {
             DoSelectionSort(target);
+        }
+
+        public ulong CalculateRequiredMemory(uint maxSize, int maxValue)
+        {
+            return maxSize * sizeof(int);
         }
     }
 }

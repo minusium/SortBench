@@ -1,6 +1,6 @@
 ﻿namespace SortBench.Core.Algorithms
 {
-    public class StoogeSort : ISortAlgorithm
+    internal class StoogeSort : ISortAlgorithm
     {
         // Function to implement stooge sort
         private static void DoStoogeSort(int[] arr, int l, int h)
@@ -39,6 +39,11 @@
         public void Run(int[] target)
         {
             DoStoogeSort(target, 0, target.Length - 1);
+        }
+
+        public ulong CalculateRequiredMemory(uint maxSize, int maxValue)
+        {
+            return maxSize * sizeof(int);
         }
     }
 }

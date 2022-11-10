@@ -1,6 +1,6 @@
 ﻿namespace SortBench.Core.Algorithms
 {
-    public class HeapSort : ISortAlgorithm
+    internal class HeapSort : ISortAlgorithm
     {
         public string Name => nameof(HeapSort);
 
@@ -53,6 +53,11 @@
         public void Run(int[] target)
         {
             DoHeapSort(target);
+        }
+
+        public ulong CalculateRequiredMemory(uint maxSize, int maxValue)
+        {
+            return maxSize * sizeof(int);
         }
     }
 }

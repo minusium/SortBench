@@ -80,18 +80,7 @@ namespace SortBench.Wpf.ViewModels
             }
         }
 
-        public uint RequiredMemory
-        {
-            get
-            {
-                if (SelectedAlgorithms.Any(algorithm => algorithm is SortBench.Core.Algorithms.CountSort))
-                {
-                    return (uint)Max * sizeof(int);
-                }
-
-                return 0;
-            }
-        }
+        public ulong RequiredMemory => SelectedAlgorithms.Select(algorithm => algorithm.CalculateRequiredMemory(EndSize, Max)).OrderByDescending(size => size).FirstOrDefault(0u);
 
         public uint Progress
         {

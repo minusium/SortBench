@@ -1,6 +1,6 @@
 ﻿namespace SortBench.Core.Algorithms
 {
-    public class RadixSort : ISortAlgorithm
+    internal class RadixSort : ISortAlgorithm
     {
         private static int GetMax(int[] arr, int n)
         {
@@ -66,6 +66,11 @@
         public void Run(int[] target)
         {
             DoRadixSort(target, target.Length);
+        }
+
+        public ulong CalculateRequiredMemory(uint maxSize, int maxValue)
+        {
+            return maxSize * sizeof(int) + 10 * sizeof(int);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace SortBench.Wpf.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is not uint size) return "<Unsupported>";
+            if (value is not ulong size) return "<Unsupported>";
 
             var result = (double)size / 1024;
             if (result < 1024)

@@ -1,6 +1,6 @@
 ﻿namespace SortBench.Core.Algorithms
 {
-    public class QuickSort : ISortAlgorithm
+    internal class QuickSort : ISortAlgorithm
     {
         public string Name => nameof(QuickSort);
 
@@ -57,6 +57,11 @@
         public void Run(int[] target)
         {
             DoQuickSort(target, 0, target.Length - 1);
+        }
+
+        public ulong CalculateRequiredMemory(uint maxSize, int maxValue)
+        {
+            return maxSize * sizeof(int);
         }
     }
 }

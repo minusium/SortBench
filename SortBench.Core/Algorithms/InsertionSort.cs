@@ -1,6 +1,6 @@
 ﻿namespace SortBench.Core.Algorithms
 {
-    public class InsertionSort : ISortAlgorithm
+    internal class InsertionSort : ISortAlgorithm
     {
         public string Name => nameof(InsertionSort);
 
@@ -22,6 +22,11 @@
                 }
                 target[j + 1] = key;
             }
+        }
+
+        public ulong CalculateRequiredMemory(uint maxSize, int maxValue)
+        {
+            return maxSize * sizeof(int);
         }
     }
 }

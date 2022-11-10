@@ -23,6 +23,8 @@ namespace SortBench.Core
 
         void Run(int[] target);
 
+        ulong CalculateRequiredMemory(uint maxSize, int maxValue);
+
         public long Benchmark(int[] target)
         {
             var stopwatch = new Stopwatch();

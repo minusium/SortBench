@@ -1,6 +1,6 @@
 ﻿namespace SortBench.Core.Algorithms
 {
-    public class BubbleSort : ISortAlgorithm
+    internal class BubbleSort : ISortAlgorithm
     {
         public string Name => nameof(BubbleSort);
 
@@ -17,6 +17,11 @@
                     }
                 }
             }
+        }
+
+        public ulong CalculateRequiredMemory(uint maxSize, int maxValue)
+        {
+            return maxSize * sizeof(int);
         }
     }
 }

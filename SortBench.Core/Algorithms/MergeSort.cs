@@ -1,6 +1,6 @@
 ﻿namespace SortBench.Core.Algorithms
 {
-    public class MergeSort : ISortAlgorithm
+    internal class MergeSort : ISortAlgorithm
     {
         public string Name => nameof(MergeSort);
 
@@ -92,6 +92,11 @@
         public void Run(int[] target)
         {
             DoMergeSort(target, 0, target.Length - 1);
+        }
+
+        public ulong CalculateRequiredMemory(uint maxSize, int maxValue)
+        {
+            return maxSize * sizeof(int);
         }
     }
 }
