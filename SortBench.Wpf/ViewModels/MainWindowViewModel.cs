@@ -68,7 +68,7 @@ namespace SortBench.Wpf.ViewModels
             }
         }
 
-        public List<ISortAlgorithm> AllAlgorithms { get; } = ISortAlgorithm.Algorithms.ToList();
+        public List<ISortAlgorithm> AllAlgorithms { get; } = SortAlgorithms.All.ToList();
 
         public List<ISortAlgorithm> SelectedAlgorithms
         {
@@ -80,7 +80,9 @@ namespace SortBench.Wpf.ViewModels
             }
         }
 
-        public ulong RequiredMemory => SelectedAlgorithms.Select(algorithm => algorithm.CalculateRequiredMemory(EndSize, Max)).OrderByDescending(size => size).FirstOrDefault(0u);
+        public ulong RequiredMemory => SelectedAlgorithms
+            .Select(algorithm => algorithm.CalculateRequiredMemory(EndSize, Max)).OrderByDescending(size => size)
+            .FirstOrDefault();
 
         public uint Progress
         {

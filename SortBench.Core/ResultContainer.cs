@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Legends;
@@ -40,14 +41,14 @@ namespace SortBench.Core
 
             // write header
             var columnNames = "Size;";
-            columnNames += string.Join(';', _columns);
+            columnNames += string.Join(";", _columns);
             writer.WriteLine(columnNames);
 
             // write each row
             foreach (var row in _data)
             {
                 var columns = $"{row.Key};";
-                columns += string.Join(';', row.Value);
+                columns += string.Join(";", row.Value);
                 writer.WriteLine(columns);
             }
         }

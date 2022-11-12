@@ -1,13 +1,23 @@
-﻿using SortBench.Core.Algorithms;
+﻿using System;
 using System.Diagnostics;
 using System.Linq;
-using System;
+
+using SortBench.Core.Algorithms;
 
 namespace SortBench.Core
 {
     public interface ISortAlgorithm
     {
-        public static readonly ISortAlgorithm[] Algorithms = {
+        string Name { get; }
+
+        void Run(int[] target);
+
+        ulong CalculateRequiredMemory(uint maxSize, int maxValue);
+    }
+
+    public static class SortAlgorithms
+    {
+        public static readonly ISortAlgorithm[] All = {
             new BubbleSort(),
             new InsertionSort(),
             new SelectionSort(),
@@ -16,16 +26,9 @@ namespace SortBench.Core
             new CountSort(),
             new RadixSort(),
             new HeapSort(),
-            new StoogeSort(),
         };
-        
-        string Name { get; }
 
-        void Run(int[] target);
-
-        ulong CalculateRequiredMemory(uint maxSize, int maxValue);
-
-        public long Benchmark(int[] target)
+        public static long Benchmark(this ISortAlgorithm algorithm, int[] target)
         {
             var stopwatch = new Stopwatch();
 
@@ -35,7 +38,7 @@ namespace SortBench.Core
 
             // run the sort algorithm and calculate elapsed time
             stopwatch.Start();
-            Run(clonedTarget);
+            algorithm.Run(clonedTarget);
             stopwatch.Stop();
 
 #if DEBUG

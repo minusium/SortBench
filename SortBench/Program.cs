@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using SortBench.Core;
+﻿using SortBench.Core;
 
 namespace SortBench
 {
@@ -24,7 +23,7 @@ namespace SortBench
         public static void Main()
         {
             // add column for each algorithm to the result container
-            foreach (var algorithm in ISortAlgorithm.Algorithms)
+            foreach (var algorithm in SortAlgorithms.All)
             {
                 Results.AddColumn(algorithm.Name);
             }
@@ -43,7 +42,7 @@ namespace SortBench
                     .ToArray();
 
                 // sort the array with each algorithm and save the result
-                foreach (var algorithm in ISortAlgorithm.Algorithms)
+                foreach (var algorithm in SortAlgorithms.All)
                 {
                     Console.WriteLine($"> Running {algorithm.Name}...");
                     var elapsed = algorithm.Benchmark(target);
